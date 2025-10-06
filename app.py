@@ -65,11 +65,10 @@ def proxy(subpath):
         full_url = f"{ollama_url}/{subpath}"
         
         # Forward the request to Ollama server
-        if request.method == 'GET':
-            response = requests.get(full_url, headers=request.headers, params=request.args)
+        if request.method == 'GET':    
+            response = requests.get(full_url, params=request.args)
         elif request.method == 'POST':
-            response = requests.post(full_url, headers=request.headers, data=request.data, params=request.args)
-       
+            response = requests.post(full_url, data=request.data, params=request.args)
         else:
             return jsonify({"error": "Method not allowed"}), 405
         
@@ -77,7 +76,7 @@ def proxy(subpath):
 
         return Response(
             response.content,
-            status=response.status_code,
+            status=response.status_code
             #headers=dict(response.headers)
         )
         
